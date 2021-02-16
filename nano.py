@@ -51,7 +51,7 @@ class nanoClient():
         self.pendingPayment = False
         self.transit = False
         self.ethSec = 0
-        self.lastReward = 0
+        self.lastReward = time.time()
         
 
 
@@ -129,8 +129,7 @@ class nanoClient():
 
     def parseUserInfo(self, data):
         try:
-            self.getPayments()
-            t = time.time()                        
+            self.getPayments()                
             self.reportDetail = """"""
 
             newVal = float(data['data']['hashrate'])
@@ -159,9 +158,9 @@ class nanoClient():
 
 
             newVal = float(data['data']['balance'])
-            self.thresholdCheck(self.balance, newVal, 0.001, f'{color.DARKCYAN}{color.BOLD}Cha-Ching!{color.END} Balance')
+            if self.thresholdCheck(self.balance, newVal, 0.001, f'{color.DARKCYAN}{color.BOLD}Cha-Ching!{color.END} Balance')>0:
+                self.lastReward=time.time()
             self.balance=newVal
-            self.lastReward=l
             self.ethSec
             if self.balance>=PAYOUT:
                 self.payoutReached=True
@@ -208,9 +207,11 @@ class nanoClient():
         pmts.sort()
         lastPayment = pmts[-1]
 
-        since = time.time() - lastPayment
+        since = self.lastReward - lastPayment
         ethSec = self.balance / since
         usdSec = ethSec * self.eth     
+
+        unrewarded = (time.time() - self.lastReward)*ethSec
         
         
         if PAYOUT<self.balance:
@@ -219,12 +220,12 @@ class nanoClient():
         else: 
             if self.transit:
                 payout = f"Payment in transit."  
-            elif since<(3600*6):
+            elif since<(60*3):
                 prior = self.payments[pmts[-2]]['amount']
                 span = lastPayment - pmts[-2]
                 payout = f"Last: {prior:0.4f} ETH in {self.formatTime(span)} - ${(((prior/span)*3600*24) * self.eth):.2f}/day"
             else:
-                payout = f"Payout in {self.formatTime((PAYOUT - self.balance)/ethSec)}"
+                payout = f"Payout in {self.formatTime((PAYOUT - (self.balance+unrewarded))/ethSec)}"
 
         lastPayTime = self.formatTime(since)
 
