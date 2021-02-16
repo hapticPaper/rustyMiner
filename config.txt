@@ -1,0 +1,9 @@
+{
+    "wallet":"0xc1817a207e1f7Bdc3ACe6283D071c93d190c330C",
+    "pool": "eth-us-east1.nanopool.org:9999",
+    "worker":"polaris_p_3090",
+    "minHash":90,
+    "avgHash":112,
+    "targetHash":120,
+    "tuning":{"fanmin":[50],"tt":[50], "cclock":["-500"],"mclock":["+1200"], "powlim":[-8], "cvddc":["800"]}
+}
