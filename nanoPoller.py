@@ -7,17 +7,18 @@ logging.basicConfig(level=logging.INFO,
                     format='%(message)s')
                     
 l = logging.getLogger("Nano Minder")
-DEBUG=True
-        
+DEBUG=False
+SKIPPER = 3
+REQUESTS = 0        
 def runner(nano, skip=3):
-    skipper = 0
+    global REQUESTS
     nano.reportedHashrate()
     nano.accountData()
-    if len(nano.reportDetail)>0 or skipper % (skip*4) == 0:
+    if len(nano.reportDetail)>0 or REQUESTS % ((skip*4)) == 0:
         nano.report()
     else: 
         pass            
-    skipper+=1
+    REQUESTS+=1
 
     print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", end = "\r")
 
@@ -27,7 +28,7 @@ p = None
 b = None
 while True and p==None and b==None:
     if DEBUG:
-        runner(nano, skip=0.25)
+        runner(nano, skip=SKIPPER)
     else:
         try:
             runner(nano)
