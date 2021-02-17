@@ -4,7 +4,6 @@ import datetime
 import time
 
 NANOAPI = 'https://api.nanopool.org/v1/'
-EtherScanAPIKey='FWARZYTIH42F2ATIECV4VEDSDEGZVPWQ91'
 
 PAYOUT = 0.1
 
