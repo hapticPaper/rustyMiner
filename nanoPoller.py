@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.INFO,
                     format='%(message)s')
                     
 l = logging.getLogger("Nano Minder")
-DEBUG=False
+DEBUG=True
 SKIPPER = 3
 REQUESTS = 0        
 def runner(nano, skip=3):

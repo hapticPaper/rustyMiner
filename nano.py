@@ -123,7 +123,7 @@ class nanoClient():
             d = (current - prior)/prior
             if abs(d) > delta:
                 self.reportDetail += f"\t\t{label} changed by more than {delta:.1%}: {current-prior:0.6f} ({d:.2%})\n"
-                return d
+            return d
         else:
             return -1
 
