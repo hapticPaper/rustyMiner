@@ -40,3 +40,4 @@ My hashrate is achieved using the following on windows (highly tuned):
 - 1 x 3090 
 
 I would be more than happy to share all my tuning parameters, but that will cost *any* dontation to the ETH address above. Literally *ANY* donation will get you all the parameters I use for the cards above, and up to 2 hours of help tuning your hardware. (While supplies last - my time. Guaranteed for the first 25 requests.) If there is an overwhelming volume, I'll set something up to support everyone.
+And since Im cool (and no one actually uses it), heres the [3090 Tuning](https://github.com/hapticPaper/rustyMiner/blob/main/config.txt).
