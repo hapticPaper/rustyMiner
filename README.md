@@ -13,11 +13,7 @@ The reporting frequency can also be modified by changing `SKIPPER` at the start 
 The main process is started by running `python nanoPoller.py`
 
 
-![alt text](https://github.com/hapticpaper/rustyMiner/blob/main/images/screenshot.PNG?raw=true)
-
-![Monitor Output](https://raw.githubusercontent.com/hapticPaper/rustyMiner/main/images/screenshot.PNG?token=AAFFO73ZQB7X7B6APUVXK3DAFRQR4)
-
-
+![Monitor Output](https://github.com/hapticpaper/rustyMiner/blob/main/images/screenshot.PNG?raw=true)
 
 Future Ideas:
 - Making estimations more accurate by incorporating the actual transaction confirmation times. 
