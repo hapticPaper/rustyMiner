@@ -192,6 +192,8 @@ class nanoClient():
             raise Exception(f'Couldnt update nano data - {e}')
 
     def formatTime(self, seconds):
+        if seconds > (259200):
+            return f"~{int(seconds / 86400 )} days"
         return f"{int(seconds / 3600 )}:{int((seconds % 3600)/60):02d}"
 
     def report(self):
@@ -209,11 +211,14 @@ class nanoClient():
 
         since = self.lastReward - lastPayment
         ethSec = self.balance / since
-        usdSec = ethSec * self.eth     
+        usdSec = ethSec * self.eth
+        oneETH = self.formatTime(1.0 / ethSec)
 
         unrewarded = (time.time() - self.lastReward)*ethSec
         
         
+        div = f"{color.GREY}{color.BOLD}|{color.END}"
+
         if PAYOUT<self.balance:
             excess = self.balance-PAYOUT
             payout = f"{self.formatTime(excess / ethSec)} & {excess:.5f} ETH over"
@@ -225,16 +230,15 @@ class nanoClient():
                 span = lastPayment - pmts[-2]
                 payout = f"Last: {prior:0.4f} ETH in {self.formatTime(span)} - ${(((prior/span)*3600*24) * self.eth):.2f}/day"
             else:
-                payout = f"Payout in {color.BOLD}{color.YELLOW}{self.formatTime((PAYOUT - (self.balance+unrewarded))/ethSec)}{color.END}"
+                payout = f"Payout in {color.BOLD}{color.YELLOW}{self.formatTime((PAYOUT - (self.balance+unrewarded))/ethSec)}{color.END} {div} {oneETH}/ETH"
 
         lastPayTime = self.formatTime(since)
 
 
-        div = f"{color.GREY}{color.BOLD}|{color.END}"
-        
-        rates = f'{div} {lastPayTime} = ${usdSec * 3600 :.2f}/hr {div} {ethSec * 24* 3600:0.4f} ETH {color.RED}{color.BOLD}${usdSec * 3600 * 24 :.2f}{color.END}/day {div} {payout}'
+        # {lastPayTime} = 
+        rates = f'{div} ${usdSec * 3600 :.2f}/hr {div} {ethSec * 24* 3600:0.4f} ETH {color.RED}{color.BOLD}${usdSec * 3600 * 24 :.2f}{color.END}/day {div} {payout}'
 
-        l.info(f"""{datetime.datetime.now().strftime('%Y-%m-%d %H:%M')} {div} {color.BOLD}{color.PURPLE}{self.reportedRate:.0f} mh/s{color.END} {div} {self.balance:.4f} x ${self.eth:,.0f} = {color.BOLD}{color.GREEN}${self.eth*self.balance:.2f}{color.END}:{color.BLUE}{color.BOLD}{self.balance/0.1:.2%}{color.END} {rates} {flag}""")
+        l.info(f"""{datetime.datetime.now().strftime('%m.%d %H:%M')} {div} {color.BOLD}{color.PURPLE}{self.reportedRate:.0f} Mh/s{color.END} {div} {self.balance:.4f} x ${self.eth:,.0f} = {color.BOLD}{color.GREEN}${self.eth*self.balance:>7.2f}{color.END} :{color.BLUE}{color.BOLD}{self.balance/0.1:>7.2%}{color.END} {rates} {flag}""")
         self.ding = False
         self.halfDing = False
         self.payoutReached = False
